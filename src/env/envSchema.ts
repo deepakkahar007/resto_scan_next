@@ -8,6 +8,11 @@ export const env = createEnv({
     DB_PASSWORD: z.string(),
     DB_PORT: z.coerce.string(),
     DB_NAME: z.string(),
+    NEON_DATABASE_URI: z.string(),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
+    BETTER_AUTH_SECRET: z.string(),
+    BETTER_AUTH_URL: z.string(),
   },
   createFinalSchema: (schema) =>
     z.object(schema).transform((val) => {
@@ -17,6 +22,7 @@ export const env = createEnv({
         DATABASE_URL: `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
       };
     }),
+  client: {},
 
   experimental__runtimeEnv: process.env,
 });
