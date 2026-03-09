@@ -1,5 +1,6 @@
 import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt, isActive } from "./modelsHelper";
+import { RestaurentProfileTable } from "./RestaurentProfileTable";
 
 export const AddressTable = pgTable("address", {
   id,
@@ -10,7 +11,9 @@ export const AddressTable = pgTable("address", {
   state: varchar().notNull(),
   country: varchar().notNull(),
   pincode: varchar().notNull(),
-  restaurent_id: uuid().notNull(),
+  restaurent_id: uuid()
+    .notNull()
+    .references(() => RestaurentProfileTable.id, { onDelete: "cascade" }),
 
   isActive,
   createdAt,
