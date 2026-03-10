@@ -36,7 +36,9 @@ const HeaderSidebar = () => {
         <BreadcrumbList>
           {breadcrumbs.map((bread, index) => (
             <BreadcrumbItem key={index} className="hidden md:block">
-              <BreadcrumbLink href={bread.href}>{bread.label}</BreadcrumbLink>
+              <BreadcrumbLink href={bread.href} className="capitalize">
+                {bread.label}
+              </BreadcrumbLink>
             </BreadcrumbItem>
           ))}
           <BreadcrumbSeparator className="hidden md:block" />

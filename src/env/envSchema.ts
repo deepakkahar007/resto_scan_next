@@ -22,7 +22,22 @@ export const env = createEnv({
         DATABASE_URL: `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
       };
     }),
-  client: {},
+  client: {
+    NEXT_PUBLIC_BETTER_AUTH_URL: z.string(),
+  },
 
-  experimental__runtimeEnv: process.env,
+  // experimental__runtimeEnv: process.env,
+  runtimeEnv: {
+    DB_HOST: process.env.DB_HOST,
+    DB_USER: process.env.DB_USER,
+    DB_PASSWORD: process.env.DB_PASSWORD,
+    DB_PORT: process.env.DB_PORT,
+    DB_NAME: process.env.DB_NAME,
+    NEON_DATABASE_URI: process.env.NEON_DATABASE_URI,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+    NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+  },
 });
