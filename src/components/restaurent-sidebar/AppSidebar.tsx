@@ -1,4 +1,3 @@
-import * as React from "react";
 import { GalleryVerticalEnd, Minus, Plus } from "lucide-react";
 
 import {
@@ -20,8 +19,8 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Button } from "../ui/button";
 import Link from "next/link";
+import Logout from "./Logout";
 
 // This is sample data.
 const data = {
@@ -224,9 +223,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Button variant={"destructive"} size={"sm"}>
-          Logout
-        </Button>
+        <Logout />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

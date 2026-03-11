@@ -19,9 +19,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { signIn, signUp } from "@/lib/auth";
-import { auth } from "@/server/auth/better-auth";
-import { signInWithgoogle } from "@/actions/auth";
+import { signIn } from "@/lib/auth";
 
 const formSchema = z.object({
   email: z.email().trim(),
@@ -56,13 +54,21 @@ const SignInPage = () => {
   });
 
   async function handleGoogleLogin() {
-    try {
-      const res = await signInWithgoogle();
-      console.log(res);
-    } catch (err: Error | unknown) {
-      console.log(err instanceof Error ? err.message : "something went wrong");
-      toast.error("something went wrong");
-    }
+    await signIn.social(
+      {
+        provider: "google",
+        callbackURL: "/overview", // Change this to your desired redirect path after login
+      },
+      {
+        onSuccess: (ctx) => {
+          console.log(ctx);
+          toast.success("Redirecting to Google...");
+        },
+        onError: (ctx: { error: { message?: string } }) => {
+          toast.error(ctx.error.message || "Failed to sign in with Google");
+        },
+      },
+    );
   }
 
   return (

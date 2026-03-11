@@ -58,10 +58,4 @@ export const relations = defineRelations(models, (r) => ({
       to: r.ItemsTable.id,
     }),
   },
-  verification: {
-    user: r.one.user({
-      from: r.verification.identifier,
-      to: r.user.id,
-    }),
-  },
 }));

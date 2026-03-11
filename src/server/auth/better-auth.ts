@@ -4,11 +4,22 @@ import { db } from "@/server/drizzle/db";
 import { env } from "@/env/envSchema";
 import { nextCookies } from "better-auth/next-js";
 import { Context } from "elysia";
+import * as schema from "@/server/drizzle/models";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
+    schema: {
+      ...schema,
+      user: schema.user,
+      session: schema.session,
+      account: schema.account,
+      verification: schema.verification,
+    },
   }),
+  baseURL: env.BETTER_AUTH_URL,
+  secret: env.BETTER_AUTH_SECRET,
+
   experimental: { joins: true },
   emailAndPassword: {
     enabled: true,
