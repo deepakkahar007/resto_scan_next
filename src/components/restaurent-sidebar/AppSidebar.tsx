@@ -1,5 +1,4 @@
 import { GalleryVerticalEnd, Minus, Plus } from "lucide-react";
-
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,6 +20,9 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import Logout from "./Logout";
+import Image from "next/image";
+import { getSession } from "@/lib/auth";
+import { headers } from "next/headers";
 
 // This is sample data.
 const data = {
@@ -163,7 +165,15 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export async function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = await getSession({
+    fetchOptions: {
+      headers: await headers(),
+    },
+  });
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -172,7 +182,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton size="lg" asChild>
               <Link href="/overview">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <GalleryVerticalEnd className="size-4" />
+                  <Image
+                    src={session?.user.image || ""}
+                    alt={session?.user.name || ""}
+                    width={20}
+                    height={20}
+                    className="rounded-full"
+                  />
+
+                  {/* <GalleryVerticalEnd className="size-4" /> */}
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-medium">{"restaurent name"}</span>

@@ -1,5 +1,14 @@
+import { ChartBarInteractive } from "@/components/ChartBarInteractive";
+import OverviewCard from "@/components/OverviewCard";
+
 const RestaurentOverviewPage = () => {
-  return <div>RestaurentOverviewPage</div>;
+  return (
+    <div>
+      <OverviewCard />
+
+      <ChartBarInteractive />
+    </div>
+  );
 };
 
 export default RestaurentOverviewPage;

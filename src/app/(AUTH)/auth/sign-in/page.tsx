@@ -72,88 +72,94 @@ const SignInPage = () => {
   }
 
   return (
-    <Card className="w-full sm:max-w-md">
-      <CardHeader>
-        <CardTitle>Sign In</CardTitle>
-        <CardDescription>
-          Sign In to get started to serve in restaurent
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form
-          id="bug-report-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            form.handleSubmit();
-          }}
-        >
-          <FieldGroup>
-            <form.Field
-              name="email"
-              children={(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="enter your email"
-                      autoComplete="off"
-                    />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            />
-            <form.Field
-              name="password"
-              children={(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="********"
-                      autoComplete="off"
-                    />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            />
-          </FieldGroup>
-        </form>
-      </CardContent>
-      <CardFooter>
-        <Field orientation="horizontal">
-          <Button type="button" variant="outline" onClick={() => form.reset()}>
-            Reset
-          </Button>
-          <Button type="submit" form="bug-report-form">
-            Submit
-          </Button>
-        </Field>
+    <div className="flex items-center h-screen px-2">
+      <Card className="w-full sm:max-w-md">
+        <CardHeader>
+          <CardTitle>Sign In</CardTitle>
+          <CardDescription>
+            Sign In to get started to serve in restaurent
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form
+            id="bug-report-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+          >
+            <FieldGroup>
+              <form.Field
+                name="email"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        aria-invalid={isInvalid}
+                        placeholder="enter your email"
+                        autoComplete="off"
+                      />
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
+              />
+              <form.Field
+                name="password"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        aria-invalid={isInvalid}
+                        placeholder="********"
+                        autoComplete="off"
+                      />
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
+              />
+            </FieldGroup>
+          </form>
+        </CardContent>
+        <CardFooter>
+          <Field orientation="horizontal">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => form.reset()}
+            >
+              Reset
+            </Button>
+            <Button type="submit" form="bug-report-form">
+              Submit
+            </Button>
+          </Field>
 
-        <Button onClick={handleGoogleLogin}>Login with Google</Button>
-      </CardFooter>
-    </Card>
+          <Button onClick={handleGoogleLogin}>Login with Google</Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 };
 

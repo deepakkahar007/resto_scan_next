@@ -3,6 +3,8 @@ import {
   createRestaurentDrizzleSchema,
   CreateRestaurentSchemaResponse,
 } from "../schema/zod-schema";
+import { z } from "zod";
+import { findRestaurentProfileByUserId } from "../drizzle/queries";
 
 export const restaurentRouter = new Elysia({
   prefix: "/restaurent",
@@ -22,5 +24,20 @@ export const restaurentRouter = new Elysia({
     {
       body: createRestaurentDrizzleSchema,
       response: CreateRestaurentSchemaResponse,
+    },
+  )
+  .get(
+    "/get_restaurent",
+    async ({ query }) => {
+      const { id } = query;
+
+      const restaurent = await findRestaurentProfileByUserId(id);
+
+      return { status: !!restaurent };
+    },
+    {
+      query: z.object({
+        id: z.string(),
+      }),
     },
   );

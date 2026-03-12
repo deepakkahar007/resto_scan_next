@@ -2,10 +2,17 @@
 
 import { Button } from "../ui/button";
 import { signOut } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const Logout = () => {
   async function handleLogout() {
-    await signOut({});
+    await signOut({
+      fetchOptions: {
+        onSuccess: (ctx) => {
+          redirect("/");
+        },
+      },
+    });
   }
 
   return (
