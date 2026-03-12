@@ -29,15 +29,17 @@ const data = {
   navMain: [
     {
       title: "Getting Started",
-      url: "#",
+      url: "/overview",
+
       items: [
         {
-          title: "Installation",
-          url: "#",
+          title: "overview",
+          url: "/overview",
+          isActive: true,
         },
         {
-          title: "Project Structure",
-          url: "#",
+          title: "order",
+          url: "/order",
         },
       ],
     },
@@ -52,7 +54,6 @@ const data = {
         {
           title: "Data Fetching",
           url: "#",
-          isActive: true,
         },
         {
           title: "Rendering",
@@ -207,7 +208,7 @@ export async function AppSidebar({
             {data.navMain.map((item, index) => (
               <Collapsible
                 key={item.title}
-                defaultOpen={index === 1}
+                defaultOpen={index === 0}
                 className="group/collapsible"
               >
                 <SidebarMenuItem>
