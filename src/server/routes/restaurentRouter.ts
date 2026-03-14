@@ -4,7 +4,12 @@ import {
   CreateRestaurentSchemaResponse,
 } from "../schema/zod-schema";
 import { z } from "zod";
-import { findRestaurentProfileByUserId } from "../drizzle/queries";
+import {
+  createRestaurentDb,
+  findRestaurentProfileByUserId,
+} from "../drizzle/queries";
+import { db } from "../drizzle/db";
+import { RestaurentProfileTable } from "../drizzle/models";
 
 export const restaurentRouter = new Elysia({
   prefix: "/restaurent",
@@ -15,10 +20,15 @@ export const restaurentRouter = new Elysia({
   .post(
     "/create",
     async ({ body }) => {
-      console.log(body);
+      const res = await db
+        .insert(RestaurentProfileTable)
+        .values({ ...body })
+        .returning({ id: RestaurentProfileTable.id });
+
       return {
         message: "hello world",
         name: body.name,
+        id: res[0].id,
       };
     },
     {

@@ -1,4 +1,4 @@
-import { GalleryVerticalEnd, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -28,7 +28,7 @@ import { headers } from "next/headers";
 const data = {
   navMain: [
     {
-      title: "Getting Started",
+      title: "Overview",
       url: "/overview",
 
       items: [
@@ -44,56 +44,20 @@ const data = {
       ],
     },
     {
-      title: "Build Your Application",
+      title: "Manage Restaurent",
       url: "#",
       items: [
         {
-          title: "Routing",
-          url: "#",
+          title: "Profile",
+          url: "/profile",
         },
         {
-          title: "Data Fetching",
-          url: "#",
+          title: "Category",
+          url: "/category",
         },
         {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
+          title: "Menu",
+          url: "/menu",
         },
       ],
     },
