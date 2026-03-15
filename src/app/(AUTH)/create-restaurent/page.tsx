@@ -12,7 +12,7 @@ const CreateRestaurentPage = async () => {
   // console.log(res);
 
   return (
-    <div>
+    <div className="">
       <CreateRestaurentProfileForm />
     </div>
   );

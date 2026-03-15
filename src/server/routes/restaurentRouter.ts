@@ -1,5 +1,6 @@
 import { Elysia } from "elysia";
 import {
+  CreateCategoryDrizzleSchema,
   createRestaurentDrizzleSchema,
   CreateRestaurentSchemaResponse,
 } from "../schema/zod-schema";
@@ -10,6 +11,10 @@ import {
 } from "../drizzle/queries";
 import { db } from "../drizzle/db";
 import { RestaurentProfileTable } from "../drizzle/models";
+import {
+  createCategoryMutation,
+  deleteCategoryMutation,
+} from "../drizzle/mutations";
 
 export const restaurentRouter = new Elysia({
   prefix: "/restaurent",
@@ -47,6 +52,36 @@ export const restaurentRouter = new Elysia({
     },
     {
       query: z.object({
+        id: z.string(),
+      }),
+    },
+  )
+  .post(
+    "/category/create",
+    async ({ body }) => {
+      const createdCategory = await createCategoryMutation(body);
+
+      return {
+        message: `${body.category} created successfully`,
+        name: createdCategory,
+      };
+    },
+    {
+      body: CreateCategoryDrizzleSchema,
+      response: CreateRestaurentSchemaResponse,
+    },
+  )
+  .delete(
+    "/category/delete",
+    async ({ body }) => {
+      const deletedCategory = await deleteCategoryMutation(body.id);
+
+      return {
+        message: `${deletedCategory} deleted successfully`,
+      };
+    },
+    {
+      body: z.object({
         id: z.string(),
       }),
     },

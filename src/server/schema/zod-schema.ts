@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { RestaurentProfileTable } from "../drizzle/models";
-import { createInsertSchema } from "drizzle-orm/zod";
+import { CategoriesTable, RestaurentProfileTable } from "../drizzle/models";
+import { createInsertSchema, createUpdateSchema } from "drizzle-orm/zod";
 
 export const createRestaurentDrizzleSchema = createInsertSchema(
   RestaurentProfileTable,
@@ -18,3 +18,19 @@ export const CreateRestaurentSchemaResponse = z.object({
   message: z.string(),
   name: z.string(),
 });
+
+export const CreateCategoryDrizzleSchema = createInsertSchema(CategoriesTable, {
+  category: (val) => val.trim(),
+  logo_url: (val) => z.url().trim(),
+  bestseller: (val) => val.default(false),
+  is_new: (val) => val.default(false),
+  restaurent_id: (val) => z.uuid(),
+}).strip();
+
+export const UpdateCategoryDrizzleSchema = createUpdateSchema(CategoriesTable, {
+  category: (val) => val.trim(),
+  logo_url: (val) => z.url().trim(),
+  bestseller: (val) => val.default(false),
+  is_new: (val) => val.default(false),
+  restaurent_id: (val) => z.uuid(),
+}).strip();

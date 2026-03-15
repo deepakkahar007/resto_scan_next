@@ -29,10 +29,7 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { useMutation } from "@tanstack/react-query";
-import { api } from "@/lib/eden";
 import { useSession } from "@/lib/auth";
-import { redirect } from "next/dist/server/api-utils";
-import { useRouter } from "next/navigation";
 import { createRestaurentMutation } from "@/actions/restaurent";
 
 const CUISINE_TYPE = [
@@ -59,7 +56,7 @@ const formSchema = z.object({
       (v) => v.every((v) => CUISINE_TYPE.some((c) => c.id === v)),
       "the cuisine type is not valid",
     ),
-  available_tables: z.coerce
+  available_tables: z
     .number()
     .min(1, "the minimum number of tables is 1")
     .max(100, "the maximum number of tables allowed is 100"),
@@ -70,10 +67,10 @@ const formSchema = z.object({
 const CreateRestaurentProfileForm = () => {
   const { data: session } = useSession();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ["create-restaurent"],
     mutationFn: async (data: z.infer<typeof formSchema>) =>
-      await createRestaurentMutation(data, "b23423b452b35hb23b523b5"),
+      await createRestaurentMutation(data, session?.user.id as string),
   });
 
   const form = useForm({
@@ -121,9 +118,8 @@ const CreateRestaurentProfileForm = () => {
           >
             {/* name */}
             <FieldGroup>
-              <form.Field
-                name="name"
-                children={(field) => {
+              <form.Field name="name">
+                {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
@@ -145,12 +141,11 @@ const CreateRestaurentProfileForm = () => {
                     </Field>
                   );
                 }}
-              />
+              </form.Field>
 
               {/* description */}
-              <form.Field
-                name="description"
-                children={(field) => {
+              <form.Field name="description">
+                {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
@@ -163,7 +158,7 @@ const CreateRestaurentProfileForm = () => {
                           value={field.state.value}
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}
-                          placeholder="I'm having an issue with the login button on mobile."
+                          placeholder="A brief description of your restaurant, its ambiance, and specialties."
                           rows={6}
                           className="min-h-24 resize-none"
                           aria-invalid={isInvalid}
@@ -175,8 +170,7 @@ const CreateRestaurentProfileForm = () => {
                         </InputGroupAddon>
                       </InputGroup>
                       <FieldDescription>
-                        Include steps to reproduce, expected behavior, and what
-                        actually happened.
+                        Give potential customers a taste of what to expect.
                       </FieldDescription>
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />
@@ -184,17 +178,16 @@ const CreateRestaurentProfileForm = () => {
                     </Field>
                   );
                 }}
-              />
+              </form.Field>
 
               {/* logo url */}
-              <form.Field
-                name="logo_url"
-                children={(field) => {
+              <form.Field name="logo_url">
+                {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>Logo url</FieldLabel>
                       <Input
                         id={field.name}
                         name={field.name}
@@ -202,7 +195,7 @@ const CreateRestaurentProfileForm = () => {
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         aria-invalid={isInvalid}
-                        placeholder="Enter restaurent name"
+                        placeholder="url logo "
                         autoComplete="off"
                       />
                       {isInvalid && (
@@ -211,12 +204,11 @@ const CreateRestaurentProfileForm = () => {
                     </Field>
                   );
                 }}
-              />
+              </form.Field>
 
               {/*  cover url */}
-              <form.Field
-                name="cover_image_url"
-                children={(field) => {
+              <form.Field name="cover_image_url">
+                {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
@@ -229,7 +221,7 @@ const CreateRestaurentProfileForm = () => {
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         aria-invalid={isInvalid}
-                        placeholder="Enter number of table available"
+                        placeholder="Enter cover image URL"
                         autoComplete="off"
                       />
                       {isInvalid && (
@@ -238,13 +230,11 @@ const CreateRestaurentProfileForm = () => {
                     </Field>
                   );
                 }}
-              />
+              </form.Field>
 
               {/* cuisine type */}
-              <form.Field
-                name="cuisine_type"
-                mode="array"
-                children={(field) => {
+              <form.Field name="cuisine_type" mode="array">
+                {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
@@ -295,12 +285,11 @@ const CreateRestaurentProfileForm = () => {
                     </FieldGroup>
                   );
                 }}
-              />
+              </form.Field>
 
               {/*  tables */}
-              <form.Field
-                name="available_tables"
-                children={(field) => {
+              <form.Field name="available_tables">
+                {(field) => {
                   const isInvalid =
                     field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
@@ -327,7 +316,7 @@ const CreateRestaurentProfileForm = () => {
                     </Field>
                   );
                 }}
-              />
+              </form.Field>
             </FieldGroup>
           </form>
         </CardContent>
@@ -340,8 +329,13 @@ const CreateRestaurentProfileForm = () => {
             >
               Reset
             </Button>
-            <Button type="submit" form="bug-report-form">
-              Submit
+            <Button
+              type="submit"
+              form="bug-report-form"
+              disabled={isPending}
+              variant={isPending ? "secondary" : "default"}
+            >
+              {isPending ? "Submitting..." : "Submit"}
             </Button>
           </Field>
         </CardFooter>
